@@ -32,7 +32,7 @@ Are there alternatives at the intersection of logging and notification concerns 
 to this problem?
 
 Recently, I learned about great Slack's feature called [Workflows](https://api.slack.com/workflows) that when used in
-combination with properly configured logging library can offer such alternative.
+combination with properly configured logging library may offer such alternative.
 
 > Workflows are automated multi-step tasks or processes that can run right in Slack,
 > or connect with other tools and services.
