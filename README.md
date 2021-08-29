@@ -4,10 +4,7 @@
 
 * [Introduction](#introduction)
 * [Creating and configuring Slack Workflow with Webhook trigger](#creating-and-configuring-slack-workflow-with-webhook-trigger)
-* [Configuring *Log4j*](#configuring-log4j)<img width="809" alt="Send_a_message_step" src="https://user-images.githubusercontent.com/631003/131261834-fea5ff10-8405-4c48-a2cd-e85086b2e2da.png">
-<img width="809" alt="your_workflow_is_ready_to_use" src="https://user-images.githubusercontent.com/631003/131261835-80da9bba-232e-4df3-8c79-1ca1e048b12c.png">
-<img width="772" alt="Hello_Workflow" src="https://user-images.githubusercontent.com/631003/131261836-737ee7d9-26b4-47c1-9dab-19244480849e.png">
-
+* [Configuring *Log4j*](#configuring-log4j)
 * [Limitations and other consideration](#limitations-and-other-consideration)
 
 <a name="introduction"></a>
