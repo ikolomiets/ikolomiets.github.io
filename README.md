@@ -68,7 +68,7 @@ Finally, you will be presented with "Your workflow is ready to use" dialog with 
 You can now post messages to your workflow's channel with this simple `curl` command: 
 
 ```
-% curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello Workflow"}' https://hooks.slack.com/workflows/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
+% curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello Workflow"}' https://hooks.slack.com/workflows/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
 ```
 
 Next, we will see how *Log4j* can be configured to make certain loggers and/or certain logging levels (e.g. `WARN`) to
@@ -83,7 +83,7 @@ For that we will use *Log4j*'s standard `Http` appender together with customized
             <PatternLayout pattern="%d{ISO8601} [%t] %-5level %logger - %msg%n"/>
         </Console>
         <Http name="SlackProdMonitorWebhook"
-              url="https://hooks.slack.com/workflows/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"
+              url="https://hooks.slack.com/workflows/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"
               connectTimeoutMillis="2000"
               readTimeoutMillis="1000">
             <PatternLayout pattern="{&quot;text&quot;:&quot;[%t] %logger - %enc{ %m }{JSON}&quot;}"/>
