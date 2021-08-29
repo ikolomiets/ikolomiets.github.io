@@ -72,13 +72,13 @@ so that when triggered it will post a given message to specific Slack channel:
 12. In the "Add a workflow step" dialog select "Send a message" step by clicking on "Add"
 13. In the "Send a message" dialog select channel from step #1 in the "Send this message to" drop-down list
 14. Click on "Insert a viariable" link right below "Message Text" editor and select "text" variable added in step #9
-15. In the editor click on a "Code block" icon to embed "text" variable inside it ![Send a message](Send_a_message_step.png)
+15. In the editor click on a "Code block" icon to embed "text" variable inside it ![Send a message](images/Send_a_message_step.png)
 16. Click on "Save"
 17. Now that you're back to your Worlflow Builder dialog - click on "Publish"
 
 You will be presented with "Your workflow is ready to use" dialog with unique Webhook URL. Copy it.
 
-![Your workflow is ready to use](your_workflow_is_ready_to_use.png)
+![Your workflow is ready to use](images/your_workflow_is_ready_to_use.png)
 
 You can now post messages to your workflow's channel with this simple `curl` command:
 
@@ -86,7 +86,7 @@ You can now post messages to your workflow's channel with this simple `curl` com
 % curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello Workflow"}' https://hooks.slack.com/workflows/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
 ```
 
-![Hello Workflow](Hello_Workflow.png)
+![Hello Workflow](images/Hello_Workflow.png)
 
 <a name="configuring-log4j"></a>
 ## Configuring *Log4j*
