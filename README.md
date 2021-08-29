@@ -86,7 +86,7 @@ For that we will use *Log4j*'s standard `Http` appender together with customized
               url="https://hooks.slack.com/workflows/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"
               connectTimeoutMillis="2000"
               readTimeoutMillis="1000">
-            <PatternLayout pattern="{&quot;text&quot;:&quot;[%t] %logger - %enc{%m}{JSON}&quot;}"/>
+            <PatternLayout pattern="{&quot;text&quot;:&quot;[%t] %logger - %enc{ %m }{JSON}&quot;}"/>
         </Http>
     </Appenders>
     <Loggers>
