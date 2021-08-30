@@ -4,7 +4,7 @@
 * [Introduction](#introduction)
 * [Creating and configuring Slack Workflow with Webhook trigger](#creating-and-configuring-slack-workflow-with-webhook-trigger)
 * [Configuring *Log4j*](#configuring-log4j)
-* [Limitations and other consideration](#limitations-and-other-consideration)
+* [Limitations and other considerations](#limitations-and-other-considerations)
 
 <a name="introduction"></a>
 ## Introduction
@@ -143,8 +143,8 @@ val logger = LogManager.getLogger("SlackProdMonitorWebhook")
 logger.warn("something terrible has happened")
 ```
 
-<a name="limitations-and-other-consideration"></a>
-## Limitations and other consideration
+<a name="limitations-and-other-considerations"></a>
+## Limitations and other considerations
 
 Webhook workflows are limited to [one request per second](https://api.slack.com/docs/rate-limits#overview).
 Obviously, loggers that make use of Slack Webhook should only be used to notify about rare events.
