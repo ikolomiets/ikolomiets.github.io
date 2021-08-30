@@ -167,4 +167,4 @@ Lastly, due to limitation of `PatternLayout` to define Webhook's JSON request bo
 instance of `Throwable` as last argument are not supported (stacktrace text comes after JSON and causes parsing error
 on Slack side).
 
-*August 29, 2021*
+###### *August 29, 2021*
