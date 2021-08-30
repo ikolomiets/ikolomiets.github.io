@@ -13,7 +13,7 @@
 Have you ever logged something like this in your code?
 
 ```java
-  logger.warn("This shouldn't happen: state={}", state)
+  logger.warn("something terrible has happened")
 ```
 
 Indeed `WARN` logging level is often used to indicate that something odd has happened in your application logic, but
@@ -91,12 +91,13 @@ You can now post messages to your workflow's channel with this simple `curl` com
 <a name="configuring-log4j"></a>
 ## Configuring *Log4j*
 
-To make your Java application able to send notifications to Slack, we can configure *Log4j*'s
-standard [`Http`](https://logging.apache.org/log4j/2.x/manual/appenders.html#HttpAppender) appender with
-customized `PatternLayout`, and make certain loggers use such appender.
+To make your Java/Kotlin application able to send notifications to Slack, we can configure *Log4j*'s
+standard [`<Http>`](https://logging.apache.org/log4j/2.x/manual/appenders.html#HttpAppender) appender with
+customized [`<PatternLayout>`](https://logging.apache.org/log4j/2.x/manual/layouts.html#PatternLayout),
+and make certain loggers with certain logging levels to use such appender.
 
-The following *Log4j* configuration makes any child logger of the "com.starsgroup.ffs" category and `WARN` logging level
-to send messages with Slack Webhook (in addition to Console appender):
+The following *Log4j* configuration makes any child logger of the `com.example` parent at `WARN` log level
+to send messages using `<SlackProdMonitorWebhook>` appender (in addition to `<Console>` one):
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
@@ -108,11 +109,12 @@ to send messages with Slack Webhook (in addition to Console appender):
               url="https://hooks.slack.com/workflows/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"
               connectTimeoutMillis="2000"
               readTimeoutMillis="1000">
+            <Property name="Content-type">application/json</Property>
             <PatternLayout pattern="{&quot;text&quot;:&quot;[%t] %logger - %enc{ %m }{JSON}&quot;}"/>
         </Http>
     </Appenders>
     <Loggers>
-        <Logger name="com.starsgroup.ffs">
+        <Logger name="com.example">
             <AppenderRef ref="SlackProdMonitorWebhook" level="warn"/>
         </Logger>
 
@@ -123,9 +125,9 @@ to send messages with Slack Webhook (in addition to Console appender):
 </Configuration>
 ```
 
-If, instead, you want a dedicated Slack logger to be used with any logging level, you can replace `<Loggers>` section
-with this: 
-
+Or, if you need a dedicated Slack logger to be used with varying levels, you can configure it with the following
+`<Loggers>` section (you may also consider adding `%-5level` specifier and remove `%logger` from the appender's pattern
+since level may vary, while logger will always be `SlackProdMonitorWebhook`):
 ```
 <Loggers>
     <Logger name="SlackProdMonitorWebhook" level="debug">
@@ -142,7 +144,7 @@ This is how you access *SlackProdMonitorWebhook* logger in your code:
 
 ```kotlin
 val logger = LogManager.getLogger("SlackProdMonitorWebhook")
-logger.info("something terrible has happened")
+logger.warn("something terrible has happened")
 ```
 
 <a name="limitations-and-other-consideration"></a>
@@ -151,15 +153,18 @@ logger.info("something terrible has happened")
 Webhook workflows are limited to [one request per second](https://api.slack.com/docs/rate-limits#overview).
 Obviously, loggers that make use of Slack Webhook should only be used to notify about rare events.
 
-Also be mindful of the fact that *Log4j* *Http* appender blocks execution of application code for duration of
-network call. It's important to ensure that appender's configured connection and read timeouts are appropriate for your
-application. If latency is critical,
+Also be mindful of the fact that *Log4j*
+[`<Http>`](https://logging.apache.org/log4j/2.x/manual/appenders.html#HttpAppender) appender blocks execution of
+application code for duration of network call. It's important to ensure that appender's configured connection and read
+timeouts are appropriate for your application. If latency is critical,
 consider using *Log4j* [`<Async>`](https://logging.apache.org/log4j/2.x/manual/appenders.html#AsyncAppender) appender
-to wrap `Http` one.
+to wrap `<Http>` one.
 
 Another important consideration is privacy. Do not log data that may be considered as private or otherwise sensitive
 information.
 
 Lastly, due to limitation of `PatternLayout` to define Webhook's JSON request body, logger's methods that take
-instance of `Throwable` as last argument are not supported (stacktrace comes after JSON and causes parsing error on
-Slack side).
+instance of `Throwable` as last argument are not supported (stacktrace text comes after JSON and causes parsing error
+on Slack side).
+
+*August 29, 2021*
