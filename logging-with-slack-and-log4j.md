@@ -54,7 +54,7 @@ containing Workflow's variables to it:
 Here I will guide you through the steps required to create and configure a Workflow with Webhook trigger in Slack, so
 that when triggered it will post a given text message to specific Slack channel: 
 
-1. Select existing channel or create new (e.g. "#prod-issues")
+1. Select existing channel or create new, where messages will be posted
 2. Go to channel's details (right click on channel name, select "Open channel details")
 3. In channel details dialog open "Integrations" tab
 4. In "Workflow" section click on "Add a workflow"
