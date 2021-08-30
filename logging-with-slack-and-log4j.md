@@ -136,7 +136,7 @@ layout pattern, since here level may vary, while logger will always be `SlackPro
 </Loggers>
 ```
 
-This is how you access *SlackProdMonitorWebhook* logger in your code: 
+This is how you access `SlackProdMonitorWebhook` logger in your code: 
 
 ```kotlin
 val logger = LogManager.getLogger("SlackProdMonitorWebhook")
