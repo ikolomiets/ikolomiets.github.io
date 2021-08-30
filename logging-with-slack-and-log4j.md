@@ -1,7 +1,6 @@
 # Logging and notifying about rare events with Slack Webhooks and Log4j
 
 ### Table of Contents
-
 * [Introduction](#introduction)
 * [Creating and configuring Slack Workflow with Webhook trigger](#creating-and-configuring-slack-workflow-with-webhook-trigger)
 * [Configuring *Log4j*](#configuring-log4j)
@@ -16,23 +15,22 @@ Have you ever logged something like this in your code?
   logger.warn("something terrible has happened")
 ```
 
-Indeed `WARN` logging level is often used to indicate that something odd has happened in your application logic, but
+Indeed `WARN` log level is often used to indicate that something odd has happened in your application logic, but
 not too critical that you can't recover from (in that case `ERROR` level would be appropriate).
-Almost by definition this is about rare events that are hard to reproduce.
-Developers have nothing better than to log as much detail as possible about the oddity, so when it happens they would
-have at least some data in the logs to help.
+Almost by definition this is about rare events that are hard to observe or reproduce.
+Developers have nothing better than to log as much detail as possible about the oddity, so when it happens again they
+would have at least some data in the logs to help.
 
-But how do you know that specific rare event occurred in your application?
-Regularly checking the logs is not an option for something that happens once in a blue moon.
-Especially when logs are huge, numerous and are stored in restricted locations.
-[Advanced logs management solutions](https://www.elastic.co/what-is/elk-stack) can definitely help, but
+But how do you know that specific event occurred in your application?  Regularly checking the logs is not an option for
+something that happens once in a blue moon. Especially when logs are huge, numerous and are stored in restricted
+locations. [Advanced logs management solutions](https://www.elastic.co/what-is/elk-stack) can definitely help, but
 such tools are often not available to developer, and when they are, their learning curve is quite steep.
 
-Are there alternatives at the intersection of logging and notification concerns that could provide a simpler  solution
+Are there alternatives exist at the intersection of logging and notification concerns that could be a simpler solution
 to this problem?
 
-Recently, I learned about great Slack's feature called [Workflows](https://api.slack.com/workflows) that when used in
-combination with properly configured logging library may offer such alternative.
+Recently, I learned about interesting Slack's feature called [Workflows](https://api.slack.com/workflows) that when
+used in combination with properly configured logging library may offer such alternative.
 
 > Workflows are automated multi-step tasks or processes that can run right in Slack,
 > or connect with other tools and services.
@@ -43,7 +41,7 @@ combination with properly configured logging library may offer such alternative.
 > service (like an internal tool your company uses) with a webhook.
 
 [Webhook](https://slack.com/intl/en-ca/help/articles/360041352714-Create-more-advanced-workflows-using-webhooks) is an
-auto-generated, unique URL that Slack provides for your Workflow to be triggered by POST'ing a JSON payload
+auto-generated, unique URL that Slack provides for your Workflow, so it can be triggered by POST'ing a JSON payload
 containing Workflow's variables to it:
 
 ```
@@ -55,14 +53,14 @@ Any data your webhook sends to Slack can be referenced in subsequent workflow st
 <a name="creating-and-configuring-slack-workflow-with-webhook-trigger"></a>
 ## Creating and configuring Slack Workflow with Webhook trigger
 
-Next, I will guide you through the steps required to create and configure a Workflow with Webhook trigger in Slack,
-so that when triggered it will post a given message to specific Slack channel:
+Here I will guide you through the steps required to create and configure a Workflow with Webhook trigger in Slack, so
+that when triggered it will post a given text message to specific Slack channel: 
 
-1. select existing channel or create new (e.g. "#prod-issues")
-2. go to channel's details (right click on channel name, select "Open channel details")
-3. in channel details dialog open "Integrations" tab
-4. in "Workflow" section click on "Add a workflow"
-5. in the "Workflow Builder" dialog click on "Create"
+1. Select existing channel or create new (e.g. "#prod-issues")
+2. Go to channel's details (right click on channel name, select "Open channel details")
+3. In channel details dialog open "Integrations" tab
+4. In "Workflow" section click on "Add a workflow"
+5. In the "Workflow Builder" dialog click on "Create"
 6. Give your workflow a name (e.g. "PROD Monitor") and click on "Next"
 7. Select "Webhook" in the "Choose a way to start your workflow" dialog
 8. In the "Webhook" dialog click on "Add variable"
@@ -80,7 +78,7 @@ You will be presented with "Your workflow is ready to use" dialog with unique We
 
 ![Your workflow is ready to use](images/your_workflow_is_ready_to_use.png)
 
-You can now post messages to your workflow's channel with this simple `curl` command:
+You can now post messages to your workflow's channel with simple `curl` command:
 
 ```
 % curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello Workflow"}' https://hooks.slack.com/workflows/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
@@ -91,10 +89,10 @@ You can now post messages to your workflow's channel with this simple `curl` com
 <a name="configuring-log4j"></a>
 ## Configuring *Log4j*
 
-To make your Java/Kotlin application able to send notifications to Slack, we can configure *Log4j*'s
+To make your Java (or Kotlin, why not?) application able to send notifications to Slack, we can configure *Log4j*'s
 standard [`<Http>`](https://logging.apache.org/log4j/2.x/manual/appenders.html#HttpAppender) appender with
 customized [`<PatternLayout>`](https://logging.apache.org/log4j/2.x/manual/layouts.html#PatternLayout),
-and make certain loggers with certain logging levels to use such appender.
+and make certain logger(s) with certain log level(s) to use such an appender.
 
 The following *Log4j* configuration makes any child logger of the `com.example` parent at `WARN` log level
 to send messages using `<SlackProdMonitorWebhook>` appender (in addition to `<Console>` one):
@@ -126,8 +124,8 @@ to send messages using `<SlackProdMonitorWebhook>` appender (in addition to `<Co
 ```
 
 Or, if you need a dedicated Slack logger to be used with varying levels, you can configure it with the following
-`<Loggers>` section (you may also consider adding `%-5level` specifier and remove `%logger` from the appender's pattern
-since level may vary, while logger will always be `SlackProdMonitorWebhook`):
+`<Loggers>` configuration (you may also consider adding `%-5level` specifier and remove `%logger` from the appender's
+layout pattern, since here level may vary, while logger will always be `SlackProdMonitorWebhook`):
 ```
 <Loggers>
     <Logger name="SlackProdMonitorWebhook" level="debug">
@@ -160,8 +158,7 @@ timeouts are appropriate for your application. If latency is critical,
 consider using *Log4j* [`<Async>`](https://logging.apache.org/log4j/2.x/manual/appenders.html#AsyncAppender) appender
 to wrap `<Http>` one.
 
-Another important consideration is privacy. Do not log data that may be considered as private or otherwise sensitive
-information.
+Another important consideration is privacy. Do not log data that may be considered as private or sensitive.
 
 Lastly, due to limitation of `PatternLayout` to define Webhook's JSON request body, logger's methods that take
 instance of `Throwable` as last argument are not supported (stacktrace text comes after JSON and causes parsing error
