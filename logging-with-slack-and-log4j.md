@@ -44,11 +44,9 @@ used in combination with properly configured logging library may offer such alte
 auto-generated, unique URL that Slack provides for your Workflow, so it can be triggered by POST'ing a JSON payload
 containing Workflow's variables to it:
 
-```
-Slack will generate a unique request URL for your workflow once you publish it,
-and you can configure your webhook to pass information to Slack via the HTTP request body.
-Any data your webhook sends to Slack can be referenced in subsequent workflow steps by creating variables.
-```
+> Slack will generate a unique request URL for your workflow once you publish it,
+> and you can configure your webhook to pass information to Slack via the HTTP request body.
+> Any data your webhook sends to Slack can be referenced in subsequent workflow steps by creating variables.
 
 <a name="creating-and-configuring-slack-workflow-with-webhook-trigger"></a>
 ## Creating and configuring Slack Workflow with Webhook trigger
